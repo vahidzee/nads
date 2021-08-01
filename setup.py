@@ -1,11 +1,16 @@
 from setuptools import setup, find_packages
 
+with open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='nads',
     packages=find_packages(exclude=['examples', 'docs']),  # add other exclusions in future
-    version='0.0.1',
+    version='0.0.2',
     license='MIT',
     description='Neural Anisotropy Directions Toolbox',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Vahid Zehtab',
     author_email='vahid98zee@gmail.com',
     url='https://github.com/vahidzee/nads',
@@ -15,11 +20,11 @@ setup(
         'deep learning'
     ],
     install_requires=[
-        'torch>=1.6',
-        'torchvision'
+        'torch>=1.9',
+        'matplotlib>=3.3',
     ],
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'License :: OSI Approved :: MIT License',
