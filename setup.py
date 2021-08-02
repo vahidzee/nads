@@ -6,7 +6,7 @@ with open('README.md', encoding='utf-8') as f:
 setup(
     name='nads',
     packages=find_packages(exclude=['examples', 'docs']),  # add other exclusions in future
-    version='0.0.3',
+    version='0.0.4',
     license='MIT',
     description='Neural Anisotropy Directions Toolbox',
     long_description=long_description,
@@ -21,8 +21,8 @@ setup(
     ],
     install_requires=[
         'torch>=1.9',
-        'matplotlib>=3.3',
-        'tqdm>=4.0'
+        'matplotlib',
+        'tqdm'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
