@@ -2,6 +2,7 @@ import typing as th
 import torch
 from .jacobian import numerical_jacobian
 from nads.nads import NADs
+from tqdm import tqdm
 
 
 class GradientCovariance:
@@ -9,6 +10,7 @@ class GradientCovariance:
     Gradient Covariance computation by MCMC sampling.
     Original code can be found in https://github.com/LTS4/neural-anisotropy-directions/blob/master/nad_computation.py#L9
     """
+
     def __init__(
             self,
             eval_point,
@@ -42,10 +44,15 @@ class GradientCovariance:
 
     @property
     def sample_grad(self):
-        return self.jacobian_fn(self.sample_model, self.eval_point)
+        model = self.sample_model
+        jac = self.jacobian_fn(model, self.eval_point)
+        del model
+        return jac
 
     def nads(self, num_samples=1000, grad_active=False):
-        sample_gradient = torch.stack([self.sample_grad.view(-1) for i in range(num_samples)])
+        sample_gradient = torch.stack([
+            self.sample_grad.view(-1) for i in tqdm(
+                range(num_samples), unit='sample', desc=f'mcmc {self.model_cls.__name__}')])
         with torch.set_grad_enabled(grad_active):
             u, s, vh = torch.linalg.svd(sample_gradient, full_matrices=False)
         return NADs(
